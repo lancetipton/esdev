@@ -33,3 +33,5 @@ export type TESBuildConf = BuildOptions & {
   aliases?:Record<string, string>
   envs?:Record<string, string|number|boolean>
 }
+
+export {}

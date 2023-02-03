@@ -3,13 +3,17 @@
   "version": "0.0.1",
   "description": "Goblet ES Build dev server for node application",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Lance Tipton",
   "license": "MIT",
   "private": true,
   "files": [
     "README.md",
     "dist",
-    "configs"
+    "resolveRoot.ts",
+    "resolveRoot.d.ts",
+    "resolveRoot.d.ts.map",
+    "configs/nm.config.json"
   ],
   "publishConfig": {
     "access": "public",
@@ -23,7 +27,7 @@
     "url": "https://github.com/lancetipton/esdev/issues"
   },
   "scripts": {
-    "build": "exit 0",
+    "build": "node -r esbuild-register configs/build.config.ts",
     "clean": "yarn clean:dist; yarn clean:nm",
     "clean:dist": "rm -rf dist && mkdir dist && echo \"\" >> dist/.keep",
     "clean:full": "yarn clean; yarn install",
@@ -48,8 +52,10 @@
     "@types/jest": "29.4.0",
     "@types/node": "18.11.18",
     "esbuild": "0.17.5",
+    "esbuild-plugin-d-ts-path-alias": "2.0.0",
     "esbuild-plugin-path-alias": "1.0.7",
     "esbuild-register": "3.4.2",
+    "get-all-files": "4.1.0",
     "nodemon": "2.0.20"
   }
 }

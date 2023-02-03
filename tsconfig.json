@@ -1,18 +1,27 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist",
+    "allowJs": true,
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./src/types",
       "./node_modules/@types",
-      "../../node_modules/@types"
     ],
     "paths": {
       "@ESD": ["src"],
       "@ESD/*": ["src/*"],
-      "@gobletqa/shared": ["../shared/src"],
-      "@gobletqa/shared/*": ["../shared/src/*"]
     }
   },
   "include": ["src/**/*"],
