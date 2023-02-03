@@ -1,0 +1,12 @@
+{
+  "ext": "none",
+  "verbose": true,
+  "watch": [""],
+  "watchOptions": {
+    "interval": 0,
+    "usePolling": false,
+    "persistent": false,
+    "useFsEvents": false,
+    "disableGlobbing": true
+  }
+}

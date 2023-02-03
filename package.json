@@ -1,0 +1,55 @@
+{
+  "name": "@gobletqa/esdev",
+  "version": "0.0.0",
+  "description": "Goblet ES Build dev server for node application",
+  "main": "dist/index.js",
+  "author": "Lance Tipton",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "README.md",
+    "dist",
+    "configs"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "url": "git+https://github.com/GobletQA/esdev.git",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/GobletQA/esdev/issues"
+  },
+  "scripts": {
+    "build": "exit 0",
+    "clean": "yarn clean:dist; yarn clean:nm",
+    "clean:dist": "rm -rf dist && mkdir dist && echo \"\" >> dist/.keep",
+    "clean:full": "yarn clean; yarn install",
+    "clean:nm": "rm -rf node_modules",
+    "format": "yarn lint && yarn pretty",
+    "json:rm": "dot-json package.json devDependencies -d",
+    "lint": "eslint --color --cache --fix --quiet --ignore-path ../../.eslintignore --config ./configs/eslintrc.config.js",
+    "pretty": "prettier --ignore-path ../../.prettierignore --config ./configs/prettier.config.js -w"
+  },
+  "peerDependencies": {
+    "esbuild": "*",
+    "esbuild-plugin-path-alias": "*",
+    "esbuild-register": "*",
+    "nodemon": "*"
+  },
+  "dependencies": {
+    "@keg-hub/jsutils": "*"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.5",
+    "@types/express": "4.17.9",
+    "@types/jest": "29.1.2",
+    "@types/node": "16.11.0",
+    "esbuild": "*",
+    "esbuild-plugin-path-alias": "*",
+    "esbuild-register": "*",
+    "nodemon": "*"
+  }
+}
