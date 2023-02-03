@@ -1,5 +1,5 @@
 {
-  "name": "@lancetipton/esdev",
+  "name": "@ltipton/esdev",
   "version": "0.0.0",
   "description": "ES Build dev server for node application",
   "main": "dist/index.js",
