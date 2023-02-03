@@ -1,6 +1,6 @@
 {
   "name": "@lancetipton/esdev",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Goblet ES Build dev server for node application",
   "main": "dist/index.js",
   "author": "Lance Tipton",

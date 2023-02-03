@@ -1,9 +1,9 @@
 import type { TESBuildConf } from './types'
-import type { PluginBuild, BuildResult,BuildFailure } from 'esbuild'
 
 import { build } from 'esbuild'
 import { buildDevServer } from './buildDevServer'
 import aliasPlugin from 'esbuild-plugin-path-alias'
+import { nodemonWatch, externalNodeModules } from './plugins'
 import {
   toBool,
   exists,
@@ -29,6 +29,7 @@ export const esbuild = async (config:TESBuildConf) => {
     entryFile,
     mergeEnvs,
     onRebuild,
+    externalNM,
     nodemonOpts,
     entryPoints,
     ...rest
@@ -57,33 +58,10 @@ export const esbuild = async (config:TESBuildConf) => {
     allowOverwrite: true,
     entryPoints: inputFiles,
     ...rest,
-    watch: !noDevServer && {
-      onRebuild(error:BuildFailure, result:BuildResult) {
-        if (error) console.error(`Error rebuilding app`, error)
-        else console.log(`Rebuilt app successfully`, result)
-
-        onRebuild?.(error, result)
-        devServer.server && devServer.server.send('restart')
-      },
-    },
     plugins: [
+      ...(eitherArr(noDevServer && [nodemonWatch(devServer, onRebuild)], noOpArr)),
       ...(eitherArr(aliases && [aliasPlugin(aliases)], noOpArr)),
-      /**
-      * Custom plugin to filter out node_modules
-      * See more info [here](https://github.com/evanw/esbuild/issues/619#issuecomment-751995294)
-      */
-      {
-        name: `external-node-modules`,
-        setup(build:PluginBuild) {
-          // Must not start with "/" or "./" or "../" which means it's a node_modules
-          // eslint-disable-next-line no-useless-escape
-          const filter = /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/
-          build.onResolve({ filter }, (args) => ({
-            external: true,
-            path: args.path,
-          }))
-        },
-      },
+      ...(eitherArr(externalNM !== false && [externalNodeModules()], noOpArr)),
       ...(eitherArr(plugins, noOpArr))
     ],
     

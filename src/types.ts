@@ -1,9 +1,8 @@
 import type { ChildProcess } from 'child_process'
 import type {
   Plugin,
-  BuildResult,
+  PluginBuild,
   BuildOptions,
-  BuildFailure,
 } from 'esbuild'
 
 
@@ -17,6 +16,8 @@ export type TNMOpts = {
   configPath?:string
 }
 
+export type TOnRebuild = (devServer:TDevServer, build:PluginBuild) => void
+
 export type TESBuildConf = BuildOptions & {
   cwd:string
   dev?:boolean
@@ -25,9 +26,10 @@ export type TESBuildConf = BuildOptions & {
   entryFile?:string
   mergeEnvs?:boolean
   plugins?: Plugin[]
+  externalNM?:boolean,
   nodemonOpts?:TNMOpts
   entryPoints?:string[]
+  onRebuild?:TOnRebuild
   aliases?:Record<string, string>
   envs?:Record<string, string|number|boolean>
-  onRebuild?:(error:BuildFailure, result:BuildResult) => void
 }
