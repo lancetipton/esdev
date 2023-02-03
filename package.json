@@ -1,5 +1,5 @@
 {
-  "name": "@gobletqa/esdev",
+  "name": "@lancetipton/esdev",
   "version": "0.0.0",
   "description": "Goblet ES Build dev server for node application",
   "main": "dist/index.js",
@@ -16,11 +16,11 @@
     "registry": "https://registry.npmjs.org"
   },
   "repository": {
-    "url": "git+https://github.com/GobletQA/esdev.git",
+    "url": "git+https://github.com/lancetipton/esdev.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/GobletQA/esdev/issues"
+    "url": "https://github.com/lancetipton/esdev/issues"
   },
   "scripts": {
     "build": "exit 0",
@@ -34,22 +34,22 @@
     "pretty": "prettier --ignore-path ../../.prettierignore --config ./configs/prettier.config.js -w"
   },
   "peerDependencies": {
-    "esbuild": "*",
-    "esbuild-plugin-path-alias": "*",
-    "esbuild-register": "*",
-    "nodemon": "*"
+    "esbuild": "0.17.5",
+    "esbuild-plugin-path-alias": "1.0.7",
+    "esbuild-register": "3.4.2",
+    "nodemon": "2.0.20"
   },
   "dependencies": {
-    "@keg-hub/jsutils": "*"
+    "@keg-hub/jsutils": "9.6.1"
   },
   "devDependencies": {
-    "@types/debug": "4.1.5",
-    "@types/express": "4.17.9",
-    "@types/jest": "29.1.2",
-    "@types/node": "16.11.0",
-    "esbuild": "*",
-    "esbuild-plugin-path-alias": "*",
-    "esbuild-register": "*",
-    "nodemon": "*"
+    "@types/debug": "4.1.7",
+    "@types/express": "4.17.16",
+    "@types/jest": "29.4.0",
+    "@types/node": "18.11.18",
+    "esbuild": "0.17.5",
+    "esbuild-plugin-path-alias": "1.0.7",
+    "esbuild-register": "3.4.2",
+    "nodemon": "2.0.20"
   }
 }
