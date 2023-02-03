@@ -1,2 +1,2 @@
-# GobletQA ESDev
-* Node.JS dev server using esbuild and nodemon
+# ESDev
+* ES Build dev server for node application
