@@ -443,7 +443,7 @@ diff-sequences@^29.3.1:
   resolved "https://registry.npmjs.org/diff-sequences/-/diff-sequences-29.3.1.tgz#104b5b95fe725932421a9c6e5b4bef84c3f2249e"
   integrity sha512-hlM3QR272NXCi4pq+N4Kok4kOp6EsgOM3ZSpJI7Da3UAs+Ttsi8MRmB6trM/lhyzUxGfOgnpkHtgqm5Q/CTcfQ==
 
-esbuild-plugin-d-ts-path-alias@^2.0.0:
+esbuild-plugin-d-ts-path-alias@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/esbuild-plugin-d-ts-path-alias/-/esbuild-plugin-d-ts-path-alias-2.0.0.tgz#20ae2d3ef9905cea5b7cf05f4fc1b89f0064bda1"
   integrity sha512-9e7aSM7grznXo4tv+CWX6iptiOcTAMnMAuVDU2QB3qwwU2Obo/+bSRC0mzvXq8Xnp/f/9UH77MtO7kPldnQSjQ==
@@ -529,7 +529,7 @@ function-bind@^1.1.1:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-get-all-files@^4.1.0:
+get-all-files@4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/get-all-files/-/get-all-files-4.1.0.tgz#e7ef452fe41a1a75388715f696f974ce22a5eb69"
   integrity sha512-ZH0Sbr6VQLMCcjrWNWyK0Wii9Kfw7ALnaZL6/5tTYf2/9lMtTTx9jSVAU92D3HfH9K8veAIehq3PbCZA7yde2g==
