@@ -6,7 +6,6 @@ import type {
 
 import path from 'path'
 import { spawn } from 'child_process'
-import { ESBRoot } from '../resolveRoot'
 import {
   isArr,
   noOpObj,
@@ -29,7 +28,7 @@ const getEnvs = (envs:NodeJS.ProcessEnv, merge:boolean) => {
 
 const nodemonDefArgs = (outFile:string, configPath:string) => ([
   `--config`,
-  configPath || path.join(ESBRoot, `configs/nm.config.json`),
+  configPath || path.join(__dirname, `nm.config.json`),
   `--ignore`,
   `**/*`,
   `--exec`,

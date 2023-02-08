@@ -21,7 +21,8 @@ export type TOnRebuild = (devServer:TDevServer, build:PluginBuild) => void
 export type TESBuildConf = BuildOptions & {
   cwd:string
   dev?:boolean
-  outFile:string
+  outDir?:string
+  outFile?:string
   args?:string[]
   entryFile?:string
   mergeEnvs?:boolean

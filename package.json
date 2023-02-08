@@ -2,17 +2,14 @@
   "name": "@ltipton/esdev",
   "version": "0.0.1",
   "description": "ES Build dev server for node application",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.cjs",
+  "module": "index.js",
+  "types": "dist/esm/index.d.ts",
   "author": "Lance Tipton",
   "license": "MIT",
   "files": [
     "README.md",
-    "dist",
-    "resolveRoot.ts",
-    "resolveRoot.d.ts",
-    "resolveRoot.d.ts.map",
-    "configs/nm.config.json"
+    "dist"
   ],
   "publishConfig": {
     "access": "public",

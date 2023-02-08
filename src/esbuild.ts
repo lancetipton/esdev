@@ -25,6 +25,7 @@ export const esbuild = async (config:TESBuildConf) => {
     envs,
     plugins,
     aliases,
+    outDir,
     outFile,
     entryFile,
     mergeEnvs,
@@ -42,17 +43,19 @@ export const esbuild = async (config:TESBuildConf) => {
   const inputFiles = eitherArr(entryPoints, [])
   !inputFiles.includes(entryFile) && inputFiles.push(entryFile)
 
+  const outObj = outDir ? { outdir: outDir } : outFile ? { outfile: outFile } : {}
+
   /**
   * Build the code, then run the devServer
   * ESBuild config object
   * [See here for more info](https://esbuild.github.io/api/#build-api)
   */
   return await build({
-    outfile: outFile,
+    ...outObj,
     bundle: true,
     minify: false,
     sourcemap: true,
-    target: 'es2020',
+    target: 'esnext',
     platform: 'node',
     assetNames: '[name]',
     allowOverwrite: true,
