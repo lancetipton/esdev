@@ -1,6 +1,6 @@
 import type { TESBuildConf } from './types'
 
-import { build } from 'esbuild'
+import { context, build } from 'esbuild'
 import { buildDevServer } from './buildDevServer'
 import aliasPlugin from 'esbuild-plugin-path-alias'
 import { nodemonWatch, externalNodeModules } from './plugins'
@@ -50,7 +50,7 @@ export const esbuild = async (config:TESBuildConf) => {
   * ESBuild config object
   * [See here for more info](https://esbuild.github.io/api/#build-api)
   */
-  return await build({
+  devServer.ctx = await context({
     ...outObj,
     bundle: true,
     minify: false,
@@ -62,12 +62,25 @@ export const esbuild = async (config:TESBuildConf) => {
     entryPoints: inputFiles,
     ...rest,
     plugins: [
-      ...(eitherArr(noDevServer && [nodemonWatch(devServer, onRebuild)], noOpArr)),
+      ...(eitherArr(!noDevServer && [nodemonWatch(devServer, onRebuild)], noOpArr)),
       ...(eitherArr(aliases && [aliasPlugin(aliases)], noOpArr)),
       ...(eitherArr(externalNM !== false && [externalNodeModules()], noOpArr)),
       ...(eitherArr(plugins, noOpArr))
     ],
     
-  }).then(devServer)
+  })
 
+  if(noDevServer){
+    console.log(`Building application....\n`)
+    await devServer.ctx.rebuild()
+    await devServer.ctx.dispose()
+    console.log(`Application successfully built.\n`)
+  }
+  else {
+    console.log(`Starting application in watch mode...\n`)
+    await devServer.ctx.watch()
+    await devServer()
+  }
+
+  return devServer
 }

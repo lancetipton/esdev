@@ -14,7 +14,10 @@ export const nodemonWatch = (devServer:TDevServer, onRebuild?:TOnRebuild) => {
     setup(build:PluginBuild){
       let count = 0
       build.onEnd(result => {
-        if (count++ === 0) return console.log('App Built Successfully', result)
+        
+        // Always return on the first build, server hasn't been started yet
+        if (count++ === 0)
+          return console.log(`Application built successfully.`, result)
 
         onRebuild?.(devServer, build)
         devServer.server && devServer.server.send('restart')

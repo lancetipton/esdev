@@ -1,3 +1,4 @@
+import type { BuildContext } from 'esbuild'
 import type { ChildProcess } from 'child_process'
 import type {
   Plugin,
@@ -7,7 +8,8 @@ import type {
 
 
 export type TDevServer = (() => void) & {
-  server?: ChildProcess
+  server: ChildProcess
+  ctx: BuildContext
 }
 
 export type TNMOpts = {

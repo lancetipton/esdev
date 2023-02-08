@@ -80,12 +80,15 @@ export const buildDevServer = (config:TESBuildConf, noDevServer:boolean) => {
 
     devServer.server.stdout.on('data', (data:string) => process.stdout.write(data))
     devServer.server.stderr.on('data', (data:string) => process.stderr.write(data))
-    process.on(`exit`, () => (
+    process.on(`exit`, () => {
       devServer.server
         && devServer.server.pid
         && process.kill(devServer.server.pid)
-    ))
-  }) as TDevServer
+
+      devServer.ctx
+        && devServer.ctx.dispose()
+    })
+  }) as unknown as TDevServer
 
   return devServer
 }
