@@ -1,6 +1,6 @@
 {
   "name": "@ltipton/esdev",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "ES Build dev server for node application",
   "main": "index.cjs",
   "module": "index.js",
