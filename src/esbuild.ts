@@ -1,4 +1,4 @@
-import type { TESBuildConf } from './types'
+import type { TESBuildConf, TDevServer } from './types'
 
 import { context, build } from 'esbuild'
 import { buildDevServer } from './buildDevServer'
@@ -13,6 +13,29 @@ import {
 
 const isDev = [`1`, 1, `true`, `T`, `yes`].includes(process.env.DEV_BUILD)
 
+
+const buildOnly = async (devServer:TDevServer, dispose:boolean=true) => {
+  console.log(`Building application....\n`)
+  await devServer.ctx.rebuild()
+  console.log(`Application successfully built.\n`)
+  dispose && await devServer.ctx.dispose()
+
+  return devServer
+}
+
+const asServer = async (devServer:TDevServer) => {
+  // Order is important
+  // 1. ensure the app is build first
+  // 2. Then start the nodemon server
+  // 3. once nodemon is started, then start listening for changes
+  console.log(`Starting application in watch mode...\n`)
+  await devServer.ctx.rebuild()
+  await devServer()
+  await devServer.ctx.watch()
+
+  return devServer
+}
+
 /**
 * Calls esbuild.build API, then starts a dev server when configured
 * Uses nodemon to reload the server
@@ -23,9 +46,9 @@ export const esbuild = async (config:TESBuildConf) => {
     dev,
     args,
     envs,
+    outDir,
     plugins,
     aliases,
-    outDir,
     outFile,
     entryFile,
     mergeEnvs,
@@ -33,6 +56,7 @@ export const esbuild = async (config:TESBuildConf) => {
     externalNM,
     nodemonOpts,
     entryPoints,
+    dispose=true,
     ...rest
   } = config
 
@@ -45,11 +69,6 @@ export const esbuild = async (config:TESBuildConf) => {
 
   const outObj = outDir ? { outdir: outDir } : outFile ? { outfile: outFile } : {}
 
-  /**
-  * Build the code, then run the devServer
-  * ESBuild config object
-  * [See here for more info](https://esbuild.github.io/api/#build-api)
-  */
   devServer.ctx = await context({
     ...outObj,
     bundle: true,
@@ -70,17 +89,8 @@ export const esbuild = async (config:TESBuildConf) => {
     
   })
 
-  if(noDevServer){
-    console.log(`Building application....\n`)
-    await devServer.ctx.rebuild()
-    await devServer.ctx.dispose()
-    console.log(`Application successfully built.\n`)
-  }
-  else {
-    console.log(`Starting application in watch mode...\n`)
-    await devServer.ctx.watch()
-    await devServer()
-  }
+  return noDevServer
+    ? await buildOnly(devServer, dispose)
+    : await asServer(devServer)
 
-  return devServer
 }

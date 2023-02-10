@@ -68,7 +68,6 @@ export const buildDevServer = (config:TESBuildConf, noDevServer:boolean) => {
   const devServer = (async () => {
     if (noDevServer) return
 
-    // @ts-ignore
     devServer.server = spawn('nodemon', nmArgs, {
       cwd,
       stdio: ['pipe', 'pipe', 'pipe', 'ipc'],

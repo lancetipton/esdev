@@ -26,6 +26,7 @@ export type TESBuildConf = BuildOptions & {
   outDir?:string
   outFile?:string
   args?:string[]
+  dispose?:boolean
   entryFile?:string
   mergeEnvs?:boolean
   plugins?: Plugin[]
