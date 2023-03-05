@@ -1,17 +1,15 @@
 import type { TESBuildConf, TDevServer } from './types'
 
-import { context, build } from 'esbuild'
+import { context } from 'esbuild'
+import { getPlugins } from './plugins'
 import { buildDevServer } from './buildDevServer'
-import aliasPlugin from 'esbuild-plugin-path-alias'
-import { nodemonWatch, externalNodeModules } from './plugins'
 import {
   toBool,
   exists,
-  noOpArr,
   eitherArr,
 } from '@keg-hub/jsutils'
 
-const isDev = [`1`, 1, `true`, `T`, `yes`].includes(process.env.DEV_BUILD)
+const isDev = [`1`, 1, `true`, `T`, `yes`, `y`, `Y`].includes(process.env.DEV_BUILD)
 
 
 const buildOnly = async (devServer:TDevServer, dispose:boolean=true) => {
@@ -50,13 +48,17 @@ export const esbuild = async (config:TESBuildConf) => {
     plugins,
     aliases,
     outFile,
+    tsConfig,
     entryFile,
     mergeEnvs,
     onRebuild,
     externalNM,
+    checkTypes,
     nodemonOpts,
     entryPoints,
+    exportTypes,
     dispose=true,
+    addNodePolyfills,
     ...rest
   } = config
 
@@ -80,13 +82,19 @@ export const esbuild = async (config:TESBuildConf) => {
     allowOverwrite: true,
     entryPoints: inputFiles,
     ...rest,
-    plugins: [
-      ...(eitherArr(!noDevServer && [nodemonWatch(devServer, onRebuild)], noOpArr)),
-      ...(eitherArr(aliases && [aliasPlugin(aliases)], noOpArr)),
-      ...(eitherArr(externalNM !== false && [externalNodeModules()], noOpArr)),
-      ...(eitherArr(plugins, noOpArr))
-    ],
-    
+    plugins: getPlugins({
+      outDir,
+      aliases,
+      plugins,
+      tsConfig,
+      onRebuild,
+      devServer,
+      checkTypes,
+      externalNM,
+      exportTypes,
+      addNodePolyfills,
+      nodemon: !noDevServer,
+    }),
   })
 
   return noDevServer

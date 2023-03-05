@@ -1,2 +1,1 @@
-export * from './nodemonWatch'
-export * from './externalNodeModules'
+export * from './plugins'

@@ -1,3 +1,4 @@
+import type { TypecheckPluginOptions } from '@jgoz/esbuild-plugin-typecheck'
 import type { BuildContext } from 'esbuild'
 import type { ChildProcess } from 'child_process'
 import type {
@@ -6,6 +7,12 @@ import type {
   BuildOptions,
 } from 'esbuild'
 
+
+export type TExternalNMConf = {
+  dependencies?:boolean
+  devDependencies?:boolean
+  [key:string]: boolean
+}
 
 export type TDevServer = (() => void) & {
   server: ChildProcess
@@ -26,16 +33,36 @@ export type TESBuildConf = BuildOptions & {
   outDir?:string
   outFile?:string
   args?:string[]
+  tsConfig?:string
   dispose?:boolean
   entryFile?:string
   mergeEnvs?:boolean
   plugins?: Plugin[]
-  externalNM?:boolean,
+  exportTypes?:boolean
+  checkTypes?:boolean
   nodemonOpts?:TNMOpts
   entryPoints?:string[]
   onRebuild?:TOnRebuild
+  addNodePolyfills?:boolean
   aliases?:Record<string, string>
+  externalNM?:boolean | TExternalNMConf
   envs?:Record<string, string|number|boolean>
 }
+
+
+export type TPluginOpts = {
+  nodemon:boolean
+  outDir?: string
+  tsConfig?: string
+  plugins?: Plugin[]
+  exportTypes?:boolean
+  devServer:TDevServer
+  onRebuild?:TOnRebuild
+  addNodePolyfills?:boolean
+  aliases?:Record<string, string>
+  externalNM?:boolean | TExternalNMConf
+  checkTypes?:boolean | TypecheckPluginOptions
+}
+
 
 export {}
