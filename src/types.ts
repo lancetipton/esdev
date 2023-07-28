@@ -1,15 +1,17 @@
-import type { BuildContext } from 'esbuild'
-import type { ChildProcess } from 'child_process'
+import type { SpawnOptions, ChildProcess } from 'child_process'
 import type {
   Plugin,
   PluginBuild,
   BuildOptions,
+  ServeResult,
+  BuildContext,
+  ServeOptions
 } from 'esbuild'
 
 
 export type TDevServer = (() => void) & {
   server: ChildProcess
-  ctx: BuildContext
+  ctx?: BuildContext
 }
 
 export type TNMOpts = {
@@ -22,6 +24,7 @@ export type TOnRebuild = (devServer:TDevServer, build:PluginBuild) => void
 
 export type TESBuildConf = BuildOptions & {
   cwd:string
+  exts?:string[]
   dev?:boolean
   outDir?:string
   outFile?:string
@@ -38,4 +41,9 @@ export type TESBuildConf = BuildOptions & {
   envs?:Record<string, string|number|boolean>
 }
 
-export {}
+export type TESWatchConf = Omit<TESBuildConf, `dev`|`dispose`|`nodemonOpts`> & {
+  file?:string
+  node?:string[]
+  watchDir?:string
+  spawn?:SpawnOptions
+}
