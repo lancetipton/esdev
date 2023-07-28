@@ -22,14 +22,13 @@ import {
 const getEnvs = (envs:NodeJS.ProcessEnv, merge:boolean) => {
   
   const envObj =  eitherObj(envs, noOpObj)
-  if(!merge) return envObj as NodeJS.ProcessEnv
+  if(merge === false) return envObj as NodeJS.ProcessEnv
 
   return {
     ...(merge ? process.env : noOpObj),
     ...envObj,
   } as NodeJS.ProcessEnv
 }
-
 
 const nodemonDefArgs = (outFile:string, configPath:string) => ([
   `--config`,
@@ -112,6 +111,7 @@ const buildWatchArgs = (config:TESWatchConf) => {
     outDir,
     outFile,
     watchDir,
+    mergeEnvs,
     node=emptyArr,
     spawn=emptyObj,
   }  = config
@@ -128,8 +128,11 @@ const buildWatchArgs = (config:TESWatchConf) => {
     args,
     opts: {
       cwd,
-      envs,
       stdio: `inherit`,
+      env: getEnvs(
+        eitherObj<NodeJS.ProcessEnv>(envs as NodeJS.ProcessEnv, noOpObj as NodeJS.ProcessEnv),
+        mergeEnvs
+      ),
       ...spawn
     }
   }
