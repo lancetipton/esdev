@@ -36,7 +36,9 @@
   "peerDependencies": {
     "esbuild": "0.18.17",
     "esbuild-plugin-path-alias": "1.0.7",
-    "esbuild-register": "3.4.2",
+    "esbuild-register": "3.4.2"
+  },
+  "optionalDependencies": {
     "nodemon": "3.0.1"
   },
   "dependencies": {
