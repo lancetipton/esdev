@@ -51,12 +51,12 @@ export const esbuild = async (config:TESBuildConf) => {
     aliases,
     outFile,
     entryFile,
-    mergeEnvs,
     onRebuild,
     externalNM,
     nodemonOpts,
     entryPoints,
     dispose=true,
+    mergeEnvs=false,
     ...rest
   } = config
 

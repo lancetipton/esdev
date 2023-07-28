@@ -24,34 +24,36 @@
   },
   "scripts": {
     "build": "node -r esbuild-register configs/build.config.ts",
-    "clean": "yarn clean:dist; yarn clean:nm",
+    "clean": "pnpm clean:dist; pnpm clean:nm",
     "clean:dist": "rm -rf dist && mkdir dist && echo \"\" >> dist/.keep",
-    "clean:full": "yarn clean; yarn install",
+    "clean:full": "pnpm clean; pnpm install",
     "clean:nm": "rm -rf node_modules",
-    "format": "yarn lint && yarn pretty",
+    "format": "pnpm lint && pnpm pretty",
     "json:rm": "dot-json package.json devDependencies -d",
     "lint": "eslint --color --cache --fix --quiet --ignore-path ../../.eslintignore --config ./configs/eslintrc.config.js",
     "pretty": "prettier --ignore-path ../../.prettierignore --config ./configs/prettier.config.js -w"
   },
   "peerDependencies": {
-    "esbuild": "~0.17.6",
-    "esbuild-plugin-path-alias": "~1.0.7",
-    "esbuild-register": "~3.4.2",
-    "nodemon": "~2.0.20"
+    "esbuild": "0.18.17",
+    "esbuild-plugin-path-alias": "1.0.7",
+    "esbuild-register": "3.4.2"
+  },
+  "optionalDependencies": {
+    "nodemon": "3.0.1"
   },
   "dependencies": {
-    "@keg-hub/jsutils": ">=9.6.1"
+    "@keg-hub/jsutils": "^9.6.1"
   },
   "devDependencies": {
-    "@types/debug": "4.1.7",
-    "@types/express": "4.17.16",
-    "@types/jest": "29.4.0",
-    "@types/node": "18.11.18",
-    "esbuild": "0.17.6",
-    "esbuild-plugin-d-ts-path-alias": "2.0.0",
+    "@types/debug": "4.1.8",
+    "@types/express": "4.17.17",
+    "@types/jest": "29.5.3",
+    "@types/node": "20.4.5",
+    "esbuild": "0.18.17",
+    "esbuild-plugin-d-ts-path-alias": "4.2.0",
     "esbuild-plugin-path-alias": "1.0.7",
     "esbuild-register": "3.4.2",
     "get-all-files": "4.1.0",
-    "nodemon": "2.0.20"
+    "nodemon": "3.0.1"
   }
 }

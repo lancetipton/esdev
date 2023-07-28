@@ -1,8 +1,11 @@
+import type { SpawnOptions } from 'child_process'
 import type {
   TNMOpts,
   TDevServer,
   TESBuildConf,
+  TESWatchConf,
 } from './types'
+
 
 import path from 'path'
 import { spawn } from 'child_process'
@@ -12,19 +15,20 @@ import {
   eitherObj,
   eitherArr,
   flatUnion,
+  emptyArr,
+  emptyObj,
 } from '@keg-hub/jsutils'
 
 const getEnvs = (envs:NodeJS.ProcessEnv, merge:boolean) => {
   
   const envObj =  eitherObj(envs, noOpObj)
-  if(!merge) return envObj as NodeJS.ProcessEnv
+  if(merge === false) return envObj as NodeJS.ProcessEnv
 
   return {
     ...(merge ? process.env : noOpObj),
     ...envObj,
   } as NodeJS.ProcessEnv
 }
-
 
 const nodemonDefArgs = (outFile:string, configPath:string) => ([
   `--config`,
@@ -57,6 +61,20 @@ const getArgs = (
     : eitherArr<string[]>(mergeArgs, defArgs)
 }
 
+const onProcessExit = (devServer:TDevServer) => {
+  return () => {
+    devServer.server
+      && devServer.server.pid
+      && process.kill(devServer.server.pid)
+
+    devServer.ctx
+      && devServer.ctx.dispose()
+
+    devServer.ctx = undefined
+    devServer.server = undefined
+  }
+}
+
 /**
  * Helper to start the dev server after bundling the app
  */
@@ -79,14 +97,53 @@ export const buildDevServer = (config:TESBuildConf, noDevServer:boolean) => {
 
     devServer.server.stdout.on('data', (data:string) => process.stdout.write(data))
     devServer.server.stderr.on('data', (data:string) => process.stderr.write(data))
-    process.on(`exit`, () => {
-      devServer.server
-        && devServer.server.pid
-        && process.kill(devServer.server.pid)
+    process.on(`exit`, onProcessExit(devServer))
+  }) as unknown as TDevServer
 
-      devServer.ctx
-        && devServer.ctx.dispose()
-    })
+  return devServer
+}
+
+const buildWatchArgs = (config:TESWatchConf) => {
+  const {
+    cwd,
+    envs,
+    file,
+    outDir,
+    outFile,
+    watchDir,
+    mergeEnvs,
+    node=emptyArr,
+    spawn=emptyObj,
+  }  = config
+
+  if(!file && !outFile)
+    throw new Error(`eswatch requires specifying a file. Use the "file" or "outFile" arguments to set file path`)
+
+  const folder = watchDir || outDir
+  const args = !folder
+    ? [...node, `--watch`, file || outFile]
+    : [...node, `--watch-path`, folder, file || outFile]
+
+  return {
+    args,
+    opts: {
+      cwd,
+      stdio: `inherit`,
+      env: getEnvs(
+        eitherObj<NodeJS.ProcessEnv>(envs as NodeJS.ProcessEnv, noOpObj as NodeJS.ProcessEnv),
+        mergeEnvs
+      ),
+      ...spawn
+    }
+  }
+}
+
+export const buildNodeDevServer = (config:TESWatchConf) => {
+  const { args, opts } = buildWatchArgs(config)
+
+  const devServer = (async () => {
+    devServer.server = spawn(`node`, args, opts as SpawnOptions)
+    process.on(`exit`, onProcessExit(devServer))
   }) as unknown as TDevServer
 
   return devServer

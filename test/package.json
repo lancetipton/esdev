@@ -1,0 +1,13 @@
+{
+  "name": "test-server",
+  "scripts": {
+    "build": "node -r esbuild-register build.config.ts",
+    "start": "node build/index.js",
+    "w:nd": "node -r esbuild-register watch.config.ts",
+    "w:nm": "DEV_BUILD=1 node -r esbuild-register build.config.ts"
+  },
+  "devDependencies": {
+    "@keg-hub/jsutils": "^9.6.1",
+    "nodemon": "3.0.1"
+  }
+}
