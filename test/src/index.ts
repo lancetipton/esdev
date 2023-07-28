@@ -20,4 +20,4 @@ const server = http.createServer((req:http.IncomingMessage, res:http.ServerRespo
 
 server.listen(SERVER_PORT)
 
-console.log('Server running on port 5000')
+console.log(`Server running on port ${SERVER_PORT}`)
