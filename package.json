@@ -23,7 +23,7 @@
     "url": "https://github.com/lancetipton/esdev/issues"
   },
   "scripts": {
-    "build": "node -r esbuild-register configs/build.config.ts",
+    "build": "node --enable-source-maps -r esbuild-register configs/build.config.ts",
     "clean": "pnpm clean:dist; pnpm clean:nm",
     "clean:dist": "rm -rf dist && mkdir dist && echo \"\" >> dist/.keep",
     "clean:full": "pnpm clean; pnpm install",

@@ -24,7 +24,6 @@ export type TOnRebuild = (devServer:TDevServer, build:PluginBuild) => void
 
 export type TESBuildConf = BuildOptions & {
   cwd:string
-  exts?:string[]
   dev?:boolean
   outDir?:string
   outFile?:string
@@ -44,6 +43,7 @@ export type TESBuildConf = BuildOptions & {
 export type TESWatchConf = Omit<TESBuildConf, `dev`|`dispose`|`nodemonOpts`> & {
   file?:string
   node?:string[]
+  exts?:string[]
   watchDir?:string
   spawn?:SpawnOptions
 }
